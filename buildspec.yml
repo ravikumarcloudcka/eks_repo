@@ -11,6 +11,8 @@ phases:
       - source ~/.bashrc
       - echo 'Check kubectl version'
       - kubectl version --short --client
+      - chmod +x prereq.sh
+      - sh prereq.sh
   pre_build:
     commands:
       - echo Logging in to Amazon EKS...
