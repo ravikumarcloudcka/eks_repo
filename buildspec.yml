@@ -38,8 +38,8 @@ phases:
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
       - echo Push the latest image to cluster
-      - kubectl apply -f .
-      - kubectl rollout restart nodejs_deploy.yaml
+      - kubectl apply -f kube_deploy/.
+      - kubectl rollout restart kube_deploy/nodejs_deploy.yaml
       - echo Writing image definitions file...
       - printf '[{"name":"service2","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
