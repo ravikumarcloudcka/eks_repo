@@ -22,8 +22,6 @@ phases:
       - echo check config 
       - kubectl config view --minify
       - echo check kubectl access
-      - pwd; whoami
-      - kubectl cluster-info
       - kubectl get svc
       - echo Logging in to Amazon ECR...
       - aws --version
