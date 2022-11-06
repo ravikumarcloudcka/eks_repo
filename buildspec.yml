@@ -18,7 +18,7 @@ phases:
     commands:
       - echo Logging in to Amazon EKS...
       - aws sts get-caller-identity
-      - aws eks --region ap-south-1 update-kubeconfig --name zi_project --role-arn arn:aws:iam::540383637988:role/eksClusterRole
+      - aws eks --region ap-south-1 update-kubeconfig --name zi_project
       - echo check config 
       - kubectl config view --minify
       - echo check kubectl access
