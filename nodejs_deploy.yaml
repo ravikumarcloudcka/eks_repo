@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: svc2
+  name: svc2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svc2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: svc2
+    spec:
+      containers:
+      - image: 540383637988.dkr.ecr.ap-south-1.amazonaws.com/service2:latest
+        name: service2
+        ports:
+        - containerPort: 9090
+        resources: {}
+status: {}
