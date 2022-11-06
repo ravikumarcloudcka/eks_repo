@@ -30,6 +30,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
+      - docker --version
       - docker build -t service2 .
       - docker tag service2:latest $REPOSITORY_URI:latest
   post_build:
