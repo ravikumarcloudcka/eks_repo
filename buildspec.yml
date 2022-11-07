@@ -18,7 +18,14 @@ phases:
     commands:
       - echo Logging in to Amazon EKS...
       - aws sts get-caller-identity
-      - aws eks --region ap-south-1 update-kubeconfig --name zi_project --role-arn arn:aws:iam::540383637988:role/service-role/eksroleproject
+      # Extracting AWS Credential Information using STS Assume Role for kubectl
+      - echo "Setting Environment Variables related to AWS CLI for Kube Config Setup"
+      - CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::540383637988:role/ekscodebuildkubectlrole --role-session-name codebuild-kubectl --duration-seconds 900)
+      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+      - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+      - aws eks --region ap-south-1 update-kubeconfig --name zi_project
       - echo check config 
       - kubectl config view --minify
       - echo check kubectl access
@@ -27,6 +34,7 @@ phases:
       - aws --version
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 540383637988.dkr.ecr.ap-south-1.amazonaws.com
       - REPOSITORY_URI=540383637988.dkr.ecr.ap-south-1.amazonaws.com/service2
+      - aws sts get-caller-identity
   build:
     commands:
       - echo Build started on `date`
